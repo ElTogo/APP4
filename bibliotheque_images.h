@@ -49,7 +49,7 @@ struct RGB
 };
 
 //Fonction personelle
-void extraireMetadonnees(MetaData *, char[MAX_CHAINE]);
+int extraireMetadonnees(struct MetaData *, char[MAX_CHAINE]);
 
 // Operations pour les images noir et blanc
 int pgm_lire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int *p_maxval, struct MetaData *p_metadonnees);

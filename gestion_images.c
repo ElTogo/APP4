@@ -20,7 +20,7 @@ int main()
     int lignes2, colonnes2;
     int maxval;
     int histogramme[MAX_VALEUR+1];
-    char nom[MAX_CHAINE];
+    char nom[MAX_CHAINE]="teste.txt";
     struct MetaData metadonnees;
 
 	int retour;
@@ -28,16 +28,13 @@ int main()
     printf("-> Debut!\n");
 
 	// exemple d'appel de fonction
+	
     retour = pgm_lire(nom, image1, 
                       &lignes1, &colonnes1, 
                       &maxval, &metadonnees);
 
-	// exemple detraitement d'un code de retour (erreur ou reussite)
-	printf("-> Retour: ");
-	if (retour == OK)
-		printf("-> OK");
-	else
-		printf("-> ERREUR");
+	
+	
 	printf("\n");
 
 	// autre exemple d'appel de fonction
