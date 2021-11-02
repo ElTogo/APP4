@@ -73,7 +73,7 @@ int pgm_lire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
 	if (premierCaractere=='#')
 	{
 		char buffer[(MAX_CHAINE*3+2)];
-		fgets(buffer, MAX_CHAINE*3, fichier);
+		fgets(buffer, MAX_CHAINE*3+2, fichier);
 		validation = extraireMetadonnees(p_metadonnees, buffer);
 		printf("%i", validation);
 		if (validation != 0){return validation;}
