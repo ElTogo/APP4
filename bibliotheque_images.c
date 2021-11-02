@@ -75,11 +75,17 @@ int pgm_lire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
 		char buffer[(MAX_CHAINE*3+2)];
 		fgets(buffer, MAX_CHAINE*3+2, fichier);
 		validation = extraireMetadonnees(p_metadonnees, buffer);
-		printf("%i", validation);
 		if (validation != 0){return validation;}
 	}
 	else {rewind(fichier);}
 	
+	char type[3];
+	fscanf(fichier, "%s", type);
+	if (type != "P2")
+	{
+		printf("Erreur format");
+		return -3;
+	}
 	
 	
 	
