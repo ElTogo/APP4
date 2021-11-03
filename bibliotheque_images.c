@@ -59,7 +59,6 @@ int pgm_lire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
              int *p_lignes, int *p_colonnes, 
              int *p_maxval, struct MetaData *p_metadonnees)
 {
-    int validation = 0;
     FILE *fichier;
     fichier = fopen(nom_fichier, "r");
     if (fichier==NULL)
@@ -69,31 +68,122 @@ int pgm_lire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
 	
 	char premierCaractere;
 	fscanf(fichier, "%c", &premierCaractere);
+	
 		
 	if (premierCaractere=='#')
 	{
 		char buffer[(MAX_CHAINE*3+2)];
 		fgets(buffer, MAX_CHAINE*3+2, fichier);
-		validation = extraireMetadonnees(p_metadonnees, buffer);
-		if (validation != 0){return validation;}
+		if (extraireMetadonnees(p_metadonnees, buffer) != 0)
+		{
+			return -3;
+		}
 	}
-	else {rewind(fichier);}
-	
-	char type[3];
-	fscanf(fichier, "%s", type);
-	if (type != "P2")
+	else 
 	{
-		printf("Erreur format");
+		rewind(fichier);
+		strcpy(p_metadonnees->auteur, "");
+		strcpy(p_metadonnees->dateCreation, "");
+		strcpy(p_metadonnees->lieuCreation, "");
+	}
+	
+	char type[2];
+	fscanf(fichier, "%s", type);
+	if (type[1] != '2')
+	{
 		return -3;
 	}
+	fscanf(fichier, "%i %i", p_colonnes, p_lignes);
+	fscanf(fichier,"%i",p_maxval);
+	if (*p_colonnes > MAX_HAUTEUR || *p_lignes > MAX_LARGEUR || *p_maxval > MAX_VALEUR)
+	{
+		return -2;
+	}
 	
-	
-	
+	for (int i = 0; i < *p_colonnes; i++)
+	{
+		for (int j = 0; j< *p_lignes; j++)
+		{
+			fscanf(fichier, "%i", &matrice[i][j]);
+		}
+	}	
+	return 0;
 }
 
 int pgm_ecrire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR], 
                int lignes, int colonnes, 
                int maxval, struct MetaData metadonnees)
 {
-    return OK;
+    FILE *fichier;
+    fichier = fopen(nom_fichier, "w");
+    if (fichier==NULL||colonnes>MAX_LARGEUR||lignes>MAX_HAUTEUR||maxval>MAX_VALEUR||colonnes<=0||lignes<=0||maxval<=0)
+    {
+		return (-1);
+	}
+	if (metadonnees.auteur[0]!='\0' || metadonnees.dateCreation[0]!='\0' || metadonnees.lieuCreation[0]!='\0')
+	{
+		fprintf(fichier, "#%s;%s;%s", metadonnees.auteur, metadonnees.dateCreation, metadonnees.lieuCreation);
+	}
+	
+	fprintf(fichier, "P2\n");
+	fprintf(fichier, "%i %i\n%i\n", colonnes, lignes, maxval);
+	for (int i = 0; i<colonnes; i++)
+	{
+		for (int j = 0; j<lignes; j++)
+		{
+			fprintf(fichier, "%i ", matrice[i][j]);
+		}
+		fprintf(fichier, "\n");
+	}
+	return 0;
+}
+
+int pgm_copier(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int matrice2[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes2, int *p_colonnes2)
+{
+	if (colonnes1>MAX_LARGEUR||lignes1>MAX_HAUTEUR||colonnes1<=0||lignes1<=0){return (-1);}
+	p_lignes2=&lignes1;
+	p_colonnes2=&colonnes1;
+	
+	for (int i = 0; i<colonnes1;i++)
+	{
+		for (int j = 0; j<lignes1;j++)
+		{
+			matrice2[i][j]=matrice1[i][j];
+		}
+	}
+	return 0;
+}
+
+int pgm_creer_histogramme(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int colonnes, int histogramme[MAX_VALEUR+1])
+{
+	if (colonnes>MAX_LARGEUR||lignes>MAX_HAUTEUR||colonnes<=0||lignes<=0){return (-1);}
+	
+	for (int i = 0; i < MAX_VALEUR + 1; i++)
+	{
+		histogramme[i]=0;
+	}
+	
+	for (int i = 0; i <colonnes; i++)
+	{
+		for (int j = 0; j < lignes; j++)
+		{
+			if (matrice[i][j]>MAX_VALEUR){return -1;}
+			histogramme[matrice[i][j]]+=1;
+		}
+	}
+	return 0;
+}
+int pgm_couleur_preponderante(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int colonnes)
+{
+	int histogramme[MAX_VALEUR+1];
+	if (pgm_creer_histogramme(matrice, lignes, colonnes, histogramme) != 0){return -1;}
+	int couleur = 0;
+	for (int i = 0; i < MAX_VALEUR + 1; i++)
+	{
+		printf("%i\n", histogramme[i]);
+		if (histogramme[i]>couleur)
+		{couleur=i;}
+		printf("%i\n", couleur);
+	}
+	return couleur;
 }

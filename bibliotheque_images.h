@@ -15,8 +15,8 @@ Description: Solution de la problematique pour GEN145.
 #include <string.h>
 
 // Valeurs maximales pour les images
-#define MAX_LARGEUR 256
-#define MAX_HAUTEUR 256
+#define MAX_LARGEUR 1921
+#define MAX_HAUTEUR 1081
 #define MAX_VALEUR 65535
 
 // Valeurs de retour des operations
