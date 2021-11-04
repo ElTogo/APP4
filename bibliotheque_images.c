@@ -242,9 +242,9 @@ int pgm_creer_negatif(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int col
 
 int pgm_extraire(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int lignes2, int colonnes2, int *p_lignes, int *p_colonnes)
 {
-	for (int i = 0; i < (colonnes2); i++)
+	for (int i = 0; i < (colonnes2 - colonnes1); i++)
 	{
-		for (int j = 0; j < (lignes2); j++)
+		for (int j = 0; j < (lignes2 - lignes1); j++)
 		{
 			matrice[i][j] = matrice[(i+colonnes1)][(j+lignes1)];
 		}
@@ -260,6 +260,7 @@ int pgm_sont_identiques(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int
 
 int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
 {
+	//(a;b)->(MAX-b;a)
 	return 0;
 }
 

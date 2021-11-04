@@ -25,7 +25,8 @@ int main()
 	
     pgm_lire(nom, image1, &lignes1, &colonnes1, &maxval, &metadonnees); 
     strcpy(nom,"Sherbrooke_Frontenac_nuit_Copie.pgm");
-    pgm_extraire(image1, 100, 100, 50, 50, &lignes1, &colonnes1);
+	pgm_ecrire(nom, image1, lignes1, colonnes1, maxval, metadonnees);
+    pgm_extraire(image1, 50, 50, 70, 70, &lignes1, &colonnes1);
 	pgm_ecrire(nom, image1, lignes1, colonnes1, maxval, metadonnees);
 	
     return 0;
