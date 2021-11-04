@@ -190,17 +190,37 @@ int pgm_couleur_preponderante(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes,
 
 int pgm_eclaircir_noircir(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int colonnes, int maxval, int valeur)
 {
-
+int eclaircir_noircir;
 	for (int i = 0; i < colonnes; i++)
 	{
 			for (int j = 0; j < lignes; j++)
 			{
 				if (valeur < 0)
 				{
-						if ( valeur > 
+					eclaircir_noircir = matrice[i][j] + valeur;
+					if (eclaircir_noircir < 0)
+					{
+							return 0;
+					}
+					else
+					{
+						return eclaircir_noircir;
+					}
 				}
+				if (valeur > 0)
+				{
+					eclaircir_noircir = matrice[i][j] + valeur;
+					if (eclaircir_noircir > 256)
+					{
+						return 256;
+					}
+					else
+					{
+						return eclaircir_noircir;
+					}
+				}
+			
 			}
 	}
-
-
+return 0;
 }
