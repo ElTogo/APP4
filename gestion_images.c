@@ -9,7 +9,7 @@ Description: Fichier de distribution pour GEN145.
 #include <stdio.h>
 #include <string.h>
 #include "bibliotheque_images.h"
-
+// test github
 int image1[MAX_HAUTEUR][MAX_LARGEUR];
 int image2[MAX_HAUTEUR][MAX_LARGEUR];
 struct RGB imageRGB1[MAX_HAUTEUR][MAX_LARGEUR];
