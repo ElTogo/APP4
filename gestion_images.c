@@ -28,7 +28,8 @@ int main()
 	pgm_ecrire(nom, image1, lignes1, colonnes1, maxval, metadonnees);
     //pgm_extraire(image1, 50, 50, 70, 70, &lignes1, &colonnes1);
     //pgm_creer_negatif(image1, lignes1, colonnes1, maxval);
-    pgm_eclaircir_noircir(image1, lignes1, colonnes1, maxval, 100);
+    pgm_eclaircir_noircir(image1, lignes1, colonnes1, maxval, -100);
+	pgm_pivoter90(image1, &lignes1, &colonnes1, 1);
 	pgm_ecrire(nom, image1, lignes1, colonnes1, maxval, metadonnees);
 	
     return 0;

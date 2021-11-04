@@ -274,6 +274,27 @@ int pgm_sont_identiques(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int
 
 int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
 {
+	int matriceT[MAX_HAUTEUR][MAX_LARGEUR];
+	if (sens == 1)
+	{
+		for(int i = 0; i < *p_colonnes; i++)
+		{
+			for (int j = 0; j < *p_lignes; j++)
+			{
+				matrice[i][j] = matrice[*p_lignes-j][i];
+			}
+		}
+	}
+	if (sens == 0)
+	{
+		for(int i = 0; i < *p_colonnes; i++)
+		{
+			for (int j = 0; j < *p_lignes; j++)
+			{
+				matrice[i][j] = matriceT[j][*p_colonnes - i];
+			}
+		}
+	}
 	//(a;b)->(MAX-b;a)
 	return 0;
 }
