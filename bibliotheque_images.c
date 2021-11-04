@@ -255,18 +255,19 @@ int pgm_extraire(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonne
 
 int pgm_sont_identiques(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int matrice2[MAX_HAUTEUR][MAX_LARGEUR], int lignes2, int colonnes2)
 {
-	for (int i = 0; i <= colonnes1; i++)
+	if (colonnes1 != colonnes2 || lignes1 != lignes2)
 	{
-		for (int j = 0; j <= lignes1; j++)
+			return -1; 
+	}
+	for (int i = 0; i < colonnes1; i++)
+	{
+		for (int j = 0; j < lignes2; j++)
 		{
-			for (int k = 0; k <= colonnes2; k++)
+			if (matrice1[i][j] != matrice2 [i][j])
 			{
-				for (int h = 0; h <= lignes2; h++)
-				{
-					if (matrice1[i][j] == matrice2[k][h])
-				}
+					return 1;
 			}
-		}
+		} 
 	}
 	return 0;
 }
