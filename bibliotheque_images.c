@@ -180,7 +180,7 @@ int pgm_couleur_preponderante(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes,
 	int couleur = 0;
 	for (int i = 0; i < MAX_VALEUR + 1; i++)
 	{
-		if (histogramme[i]>couleur)
+		if (histogramme[i]>histogramme[couleur])
 		{
 			couleur=i;
 		}
@@ -193,14 +193,50 @@ int pgm_eclaircir_noircir(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int
 
 	for (int i = 0; i < colonnes; i++)
 	{
-			for (int j = 0; j < lignes; j++)
+		for (int j = 0; j < lignes; j++)
+		{
+			if (valeur < 0)
 			{
-				if (valeur < 0)
-				{
-						if ( valeur > 
-				}
+					//if ( valeur > 
 			}
+		}
 	}
-
-
 }
+
+int pgm_creer_negatif(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int colonnes, int maxval)
+{
+	for (int i = 0; i < colonnes; i++)
+	{
+		for (int j = 0; j < lignes; j++)
+		{
+			matrice[i][j] = maxval - matrice[i][j];
+		}
+	}
+	return 0;
+}
+
+int pgm_extraire(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int lignes2, int colonnes2, int *p_lignes, int *p_colonnes)
+{
+	
+}
+
+int pgm_sont_identiques(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int matrice2[MAX_HAUTEUR][MAX_LARGEUR], int lignes2, int colonnes2)
+{
+	
+}
+
+int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
+{
+	
+}
+
+
+
+
+
+
+
+
+
+
+
