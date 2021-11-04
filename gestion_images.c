@@ -9,7 +9,6 @@ Description: Fichier de distribution pour GEN145.
 #include <stdio.h>
 #include <string.h>
 #include "bibliotheque_images.h"
-// test github
 int image1[MAX_HAUTEUR][MAX_LARGEUR];
 int image2[MAX_HAUTEUR][MAX_LARGEUR];
 struct RGB imageRGB1[MAX_HAUTEUR][MAX_LARGEUR];
@@ -18,20 +17,17 @@ struct RGB imageRGB2[MAX_HAUTEUR][MAX_LARGEUR];
 int main()
 {
     int lignes1, colonnes1;
-    int lignes2, colonnes2;
+    //int lignes2, colonnes2;
     int maxval;
-    int histogramme[MAX_VALEUR+1];
-    char nom[MAX_CHAINE]="chat.pgm";
+    //int histogramme[MAX_VALEUR+1];
+    char nom[MAX_CHAINE]="Sherbrooke_Frontenac_nuit.pgm";
     struct MetaData metadonnees;
-
-	//bonjour, c'est un teste pour le githuib
 	
-    pgm_lire(nom, image1, &lignes1, &colonnes1, &maxval, &metadonnees);
-    pgm_creer_histogramme(image1, lignes1, colonnes1,histogramme);
-    //printf("%i\n",histogramme[253] );
-	printf("%i", pgm_couleur_preponderante(image1, lignes1, colonnes1));
+    pgm_lire(nom, image1, &lignes1, &colonnes1, &maxval, &metadonnees); 
+    strcpy(nom,"Sherbrooke_Frontenac_nuit_Copie.pgm");
+    pgm_extraire(image1, 100, 100, 50, 50, &lignes1, &colonnes1);
+	pgm_ecrire(nom, image1, lignes1, colonnes1, maxval, metadonnees);
 	
-
-
     return 0;
 }
+	
