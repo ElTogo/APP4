@@ -258,20 +258,15 @@ int pgm_extraire(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonne
 
 int pgm_sont_identiques(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int matrice2[MAX_HAUTEUR][MAX_LARGEUR], int lignes2, int colonnes2)
 {
+	if (lignes1!=lignes2||colonnes1!=colonnes2){return -1;}
 	for (int i = 0; i <= colonnes1; i++)
 	{
 		for (int j = 0; j <= lignes1; j++)
 		{
-			for (int k = 0; k <= colonnes2; k++)
-			{
-				for (int h = 0; h <= lignes2; h++)
-				{
-					if (matrice1[i][j] == matrice2[k][h]);
-				}
-			}
+			if (matrice1[i][j]!=matrice2[i][j]){return -1;}
 		}
 	}
-	return 0;
+	return 1;
 }
 
 int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
@@ -283,7 +278,7 @@ int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_c
 		{
 			for (int j = 0; j < *p_lignes; j++)
 			{
-				matrice[i][j] = matrice[*p_lignes-j][i];
+				matriceT[i][j] = matrice[*p_lignes-j][i];
 			}
 		}
 	}
@@ -293,11 +288,11 @@ int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_c
 		{
 			for (int j = 0; j < *p_lignes; j++)
 			{
-				matrice[i][j] = matriceT[j][*p_colonnes - i];
+				matriceT[i][j] = matriceT[j][*p_colonnes - i];
 			}
 		}
 	}
-	//(a;b)->(MAX-b;a)
+	
 	return 0;
 }
 
