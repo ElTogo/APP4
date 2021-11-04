@@ -180,10 +180,10 @@ int pgm_couleur_preponderante(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes,
 	int couleur = 0;
 	for (int i = 0; i < MAX_VALEUR + 1; i++)
 	{
-		printf("%i\n", histogramme[i]);
 		if (histogramme[i]>couleur)
-		{couleur=i;}
-		printf("%i\n", couleur);
+		{
+			couleur=i;
+		}
 	}
 	return couleur;
 }

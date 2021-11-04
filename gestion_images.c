@@ -24,7 +24,7 @@ int main()
     char nom[MAX_CHAINE]="chat.pgm";
     struct MetaData metadonnees;
 
-  
+	//bonjour, c'est un teste pour le githuib
 	
     pgm_lire(nom, image1, &lignes1, &colonnes1, &maxval, &metadonnees);
     pgm_creer_histogramme(image1, lignes1, colonnes1,histogramme);
