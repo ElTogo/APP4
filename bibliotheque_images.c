@@ -292,7 +292,16 @@ int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_c
 			}
 		}
 	}
-	
+	int temp = *p_colonnes;
+	*p_colonnes = *p_lignes;
+	*p_lignes = temp;
+	for(int i = 0; i < *p_colonnes; i++)
+	{
+		for (int j = 0; j < *p_lignes; j++)
+		{
+			matrice[i][j] = matriceT[i][j];
+		}
+	}
 	return 0;
 }
 
