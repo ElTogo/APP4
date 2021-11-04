@@ -219,11 +219,6 @@ int pgm_eclaircir_noircir(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int
 					matrice[i][j] = eclaircir_noircir;
 				}
 			}
-		
-		
-		/*matrice[i][j]=valeur+matrice[i][j];
-		if (matrice[i][j]<0){matrice[i][j]=0;}
-		if (matrice[i][j]>maxval){matrice[i][j]=maxval;}*/
 		}
 	}
 	return 0;
@@ -243,11 +238,22 @@ int pgm_creer_negatif(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int col
 
 int pgm_extraire(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int lignes2, int colonnes2, int *p_lignes, int *p_colonnes)
 {
-	for (int i = 0; i < (colonnes2 - colonnes1); i++)
+	int temp[10][10];
+	for (int i = 50; i < (/*colonnes2 - colonnes1*/60); i++)
 	{
-		for (int j = 0; j < (lignes2 - lignes1); j++)
+		for (int j = 50; j < (/*lignes2 - lignes1*/60); j++)
 		{
-			matrice[i][j] = matrice[(i+colonnes1)][(j+lignes1)];
+			temp[i-50][j-50] = matrice[(i)][(j)];
+		}
+	}
+	int k = 0;
+	for (int i = 0; i < (10); i++)
+	{
+		for (int j = 0; j < (10); j++)
+		{
+			matrice[i][j] = k;
+			k++;
+			printf("%i %i %i\n", matrice[i][j], temp[i][j], matrice[i+50][j+50]);
 		}
 	}
 	return 0;
@@ -255,19 +261,18 @@ int pgm_extraire(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonne
 
 int pgm_sont_identiques(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int matrice2[MAX_HAUTEUR][MAX_LARGEUR], int lignes2, int colonnes2)
 {
-	if (colonnes1 != colonnes2 || lignes1 != lignes2)
+	for (int i = 0; i <= colonnes1; i++)
 	{
-			return -1; 
-	}
-	for (int i = 0; i < colonnes1; i++)
-	{
-		for (int j = 0; j < lignes2; j++)
+		for (int j = 0; j <= lignes1; j++)
 		{
-			if (matrice1[i][j] != matrice2 [i][j])
+			for (int k = 0; k <= colonnes2; k++)
 			{
-					return 1;
+				for (int h = 0; h <= lignes2; h++)
+				{
+					if (matrice1[i][j] == matrice2[k][h]);
+				}
 			}
-		} 
+		}
 	}
 	return 0;
 }
