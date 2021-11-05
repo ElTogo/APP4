@@ -20,20 +20,15 @@ int main()
     //int lignes2, colonnes2;
     int maxval;
     //int histogramme[MAX_VALEUR+1];
-    char nom[MAX_CHAINE]="Sherbrooke_Frontenac_nuit.pgm";
+    char nom[MAX_CHAINE]="teste_Copie.pgm";
     struct MetaData metadonnees;
 	
     pgm_lire(nom, image1, &lignes1, &colonnes1, &maxval, &metadonnees); 
-    strcpy(nom,"Sherbrooke_Frontenac_nuit_Copie.pgm");
-	pgm_ecrire(nom, image1, lignes1, colonnes1, maxval, metadonnees);
-    pgm_extraire(image1, 50, 50, 70, 70, &lignes1, &colonnes1);
+    strcpy(nom,"teste.pgm");
+    //pgm_extraire(image1, 50, 50, 70, 70, &lignes1, &colonnes1);
     //pgm_creer_negatif(image1, lignes1, colonnes1, maxval);
-
-    pgm_eclaircir_noircir(image1, lignes1, colonnes1, maxval, 1);
-	pgm_pivoter90(image1, &lignes1, &colonnes1, 0);
-
-   
-
+    //pgm_eclaircir_noircir(image1, lignes1, colonnes1, maxval, 1);
+	pgm_pivoter90(image1, &lignes1, &colonnes1, 1);
 	pgm_ecrire(nom, image1, lignes1, colonnes1, maxval, metadonnees);
 	
     return 0;

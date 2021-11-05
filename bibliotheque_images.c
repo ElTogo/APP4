@@ -271,7 +271,7 @@ int pgm_sont_identiques(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int
 
 int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
 {
-	int matriceT[MAX_HAUTEUR][MAX_LARGEUR];
+	int matriceT[*p_lignes][*p_colonnes];
 	if (sens == 1)
 	{
 		for(int i = 0; i < *p_colonnes; i++)
@@ -288,7 +288,7 @@ int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_c
 		{
 			for (int j = 0; j < *p_lignes; j++)
 			{
-				matrice[i][j] = matriceT[j][*p_colonnes -i];
+				matrice[*p_colonnes-j][i] = matriceT[i][j];
 			}
 		}
 	}
@@ -300,6 +300,7 @@ int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_c
 		for (int j = 0; j < *p_lignes; j++)
 		{
 			matrice[i][j] = matriceT[i][j];
+			printf("%i", matrice[i][j]);
 		}
 	}
 	return 0;
@@ -417,11 +418,47 @@ int ppm_sont_identiques(struct RGB matrice1[MAX_HAUTEUR][MAX_LARGEUR], int ligne
 		}
 	}
 	return 1;
-	return 0;
 }
 
 int ppm_pivoter90(struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
 {
+	struct RGB matriceT[MAX_HAUTEUR][MAX_LARGEUR];
+	if (sens == 1)
+	{
+		for(int i = 0; i < *p_colonnes; i++)
+		{
+			for (int j = 0; j < *p_lignes; j++)
+			{
+				matrice[i][j].valeurR = matriceT[*p_lignes-j][i].valeurR;
+				matrice[i][j].valeurG = matriceT[*p_lignes-j][i].valeurG;
+				matrice[i][j].valeurB = matriceT[*p_lignes-j][i].valeurB;
+			}
+		}
+	}
+	if (sens == 0)
+	{
+		for(int i = 0; i < *p_colonnes; i++)
+		{
+			for (int j = 0; j < *p_lignes; j++)
+			{
+				matrice[i][j].valeurR = matriceT[j][*p_colonnes -i].valeurR;
+				matrice[i][j].valeurG = matriceT[j][*p_colonnes -i].valeurG;
+				matrice[i][j].valeurB = matriceT[j][*p_colonnes -i].valeurB;
+			}
+		}
+	}
+	int temp = *p_colonnes;
+	*p_colonnes = *p_lignes;
+	*p_lignes = temp;
+	for(int i = 0; i < *p_colonnes; i++)
+	{
+		for (int j = 0; j < *p_lignes; j++)
+		{
+			matrice[i][j].valeurR = matriceT[i][j].valeurR;
+			matrice[i][j].valeurG = matriceT[i][j].valeurG;
+			matrice[i][j].valeurB = matriceT[i][j].valeurB;
+		}
+	}
 	return 0;
 }
 
