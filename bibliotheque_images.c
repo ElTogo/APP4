@@ -278,7 +278,7 @@ int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_c
 		{
 			for (int j = 0; j < *p_lignes; j++)
 			{
-				matriceT[i][j] = matrice[*p_lignes-j][i];
+				matrice[i][j] = matriceT[*p_lignes-j][i];
 			}
 		}
 	}
@@ -288,7 +288,7 @@ int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_c
 		{
 			for (int j = 0; j < *p_lignes; j++)
 			{
-				matriceT[i][j] = matriceT[j][*p_colonnes - i];
+				matrice[i][j] = matriceT[j][*p_colonnes -i];
 			}
 		}
 	}
@@ -386,11 +386,37 @@ int ppm_ecrire(char nom_fichier[], struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR],
 
 int ppm_copier(struct RGB matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, struct RGB matrice2[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes2, int *p_colonnes2)
 {
+	
+	if (colonnes1>MAX_LARGEUR||lignes1>MAX_HAUTEUR||colonnes1<=0||lignes1<=0) {return (-1);}
+	p_lignes2=&lignes1;
+	p_colonnes2=&colonnes1;
+	
+	for (int i =0; i<colonnes1; i++)
+	{
+		for (int j=0; j<lignes1; j++)
+		{
+			matrice2[i][j].valeurR=matrice1[i][j].valeurR;
+			matrice2[i][j].valeurG=matrice1[i][j].valeurG;
+			matrice2[i][j].valeurB=matrice1[i][j].valeurB;
+		}
+	}
 	return 0;
+	
 }
 
 int ppm_sont_identiques(struct RGB matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, struct RGB matrice2[MAX_HAUTEUR][MAX_LARGEUR], int lignes2, int colonnes2)
 {
+	if (lignes1!=lignes2||colonnes1!=colonnes2){return -1;}
+	for (int i = 0; i <= colonnes1; i++)
+	{
+		for (int j = 0; j <= lignes1; j++)
+		{
+			if (matrice1[i][j].valeurR!=matrice2[i][j].valeurR){return -1;}
+			if (matrice1[i][j].valeurG!=matrice2[i][j].valeurG){return -1;}
+		if (matrice1[i][j].valeurB!=matrice2[i][j].valeurB){return -1;}
+		}
+	}
+	return 1;
 	return 0;
 }
 
