@@ -104,7 +104,7 @@ int pgm_lire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
 	{
 		for (int j = 0; j< *p_lignes; j++)
 		{
-			fscanf(fichier, "%i", &matrice[i][j]);
+			fscanf(fichier, "%i ", &matrice[i][j]);
 		}
 	}	
 	if (fichier!=NULL){fclose(fichier);}
@@ -144,12 +144,12 @@ int pgm_ecrire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
 int pgm_copier(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int matrice2[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes2, int *p_colonnes2)
 {
 	if (colonnes1>MAX_LARGEUR||lignes1>MAX_HAUTEUR||colonnes1<=0||lignes1<=0){return (-1);}
-	p_lignes2=&lignes1;
-	p_colonnes2=&colonnes1;
+	*p_lignes2=lignes1;
+	*p_colonnes2=colonnes1;
 	
-	for (int i = 0; i<colonnes1;i++)
+	for (int i = 0; i<colonnes1+1;i++)
 	{
-		for (int j = 0; j<lignes1;j++)
+		for (int j = 0; j<lignes1+1;j++)
 		{
 			matrice2[i][j]=matrice1[i][j];
 		}
@@ -183,7 +183,7 @@ int pgm_couleur_preponderante(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes,
 	int couleur = 0;
 	for (int i = 0; i < MAX_VALEUR + 1; i++)
 	{
-		if (histogramme[i]>histogramme[couleur])
+		if (histogramme[i]>=histogramme[couleur])
 		{
 			couleur=i;
 		}
@@ -233,7 +233,7 @@ int pgm_creer_negatif(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int col
 	{
 		for (int j = 0; j <= lignes; j++)
 		{
-			matrice[i][j] = maxval - matrice[i][j];
+			matrice[i][j] = maxval - matrice[i][j]+1;
 		}
 	}
 	return 0;
@@ -241,6 +241,7 @@ int pgm_creer_negatif(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes, int col
 
 int pgm_extraire(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonnes1, int lignes2, int colonnes2, int *p_lignes, int *p_colonnes)
 {
+	if (lignes1>*p_lignes||colonnes1>*p_colonnes||lignes2>*p_lignes||colonnes2>*p_colonnes||*p_lignes>MAX_HAUTEUR||*p_colonnes>MAX_LARGEUR){printf("-1");return -1;}
 	int temp[colonnes2 - colonnes1][lignes2 - lignes1];
 	for (int i = 0; i < (colonnes2 - colonnes1); i++)
 	{
@@ -256,6 +257,8 @@ int pgm_extraire(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int colonne
 			matrice[i][j] = temp[i][j];
 		}
 	}
+	*p_lignes = (lignes2-lignes1);
+	*p_colonnes = (colonnes2 - colonnes1);
 	return 0;
 }
 
@@ -266,14 +269,15 @@ int pgm_sont_identiques(int matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int
 	{
 		for (int j = 0; j <= lignes1; j++)
 		{
-			if (matrice1[i][j]!=matrice2[i][j]){return -1;}
+			if (matrice1[i][j]!=matrice2[i][j]){return 1;}
 		}
 	}
-	return 1;
+	return 0;
 }
 
 int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
 {
+	if (sens!=1&&sens!=0){return -1;}
 	int matriceT[*p_lignes][*p_colonnes];
 	if (sens == 1)
 	{
@@ -303,7 +307,6 @@ int pgm_pivoter90(int matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_c
 		for (int j = 0; j < *p_lignes; j++)
 		{
 			matrice[i][j] = matriceT[i][j];
-			printf("%i", matrice[i][j]);
 		}
 	}
 	return 0;
@@ -397,8 +400,8 @@ int ppm_copier(struct RGB matrice1[MAX_HAUTEUR][MAX_LARGEUR], int lignes1, int c
 {
 	
 	if (colonnes1>MAX_LARGEUR||lignes1>MAX_HAUTEUR||colonnes1<=0||lignes1<=0) {return (-1);}
-	p_lignes2=&lignes1;
-	p_colonnes2=&colonnes1;
+	*p_lignes2=lignes1;
+	*p_colonnes2=colonnes1;
 	
 	for (int i =0; i<colonnes1; i++)
 	{
@@ -420,16 +423,17 @@ int ppm_sont_identiques(struct RGB matrice1[MAX_HAUTEUR][MAX_LARGEUR], int ligne
 	{
 		for (int j = 0; j <= lignes1; j++)
 		{
-			if (matrice1[i][j].valeurR!=matrice2[i][j].valeurR){return -1;}
-			if (matrice1[i][j].valeurG!=matrice2[i][j].valeurG){return -1;}
-		if (matrice1[i][j].valeurB!=matrice2[i][j].valeurB){return -1;}
+			if (matrice1[i][j].valeurR!=matrice2[i][j].valeurR){return 1;}
+			if (matrice1[i][j].valeurG!=matrice2[i][j].valeurG){return 1;}
+			if (matrice1[i][j].valeurB!=matrice2[i][j].valeurB){return 1;}
 		}
 	}
-	return 1;
+	return 0;
 }
 
 int ppm_pivoter90(struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
 {
+	if (sens!=1&&sens!=0){return -1;}
 	struct RGB matriceT[*p_lignes][*p_colonnes];
 	if (sens == 1)
 	{
@@ -458,7 +462,6 @@ int ppm_pivoter90(struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, i
 	int temp = *p_colonnes;
 	*p_colonnes = *p_lignes;
 	*p_lignes = temp;
-	printf("%i %i", *p_lignes, *p_colonnes);
 	for(int i = 0; i < *p_lignes; i++)
 	{
 		for (int j = 0; j < *p_colonnes; j++)
