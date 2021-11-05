@@ -107,6 +107,7 @@ int pgm_lire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
 			fscanf(fichier, "%i", &matrice[i][j]);
 		}
 	}	
+	if (fichier!=NULL){fclose(fichier);}
 	return 0;
 }
 
@@ -116,13 +117,13 @@ int pgm_ecrire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
 {
     FILE *fichier;
     fichier = fopen(nom_fichier, "w");
-    if (fichier==NULL||colonnes>MAX_LARGEUR||lignes>MAX_HAUTEUR||maxval>MAX_VALEUR||colonnes<=0||lignes<=0||maxval<=0)
+    if (fichier==NULL||colonnes>=MAX_LARGEUR||lignes>=MAX_HAUTEUR||maxval>=MAX_VALEUR||colonnes<=0||lignes<=0||maxval<=0)
     {
 		return (-1);
 	}
-	if (metadonnees.auteur[0]!='\0' || metadonnees.dateCreation[0]!='\0' || metadonnees.lieuCreation[0]!='\0')
+	if (metadonnees.auteur[0]!='\0' && metadonnees.dateCreation[0]!='\0' && metadonnees.lieuCreation[0]!='\0')
 	{
-		fprintf(fichier, "#%s;%s;%s", metadonnees.auteur, metadonnees.dateCreation, metadonnees.lieuCreation);
+		fprintf(fichier, "#%s;%s;%s\n", metadonnees.auteur, metadonnees.dateCreation, metadonnees.lieuCreation);
 	}
 	
 	fprintf(fichier, "P2\n");
@@ -135,6 +136,8 @@ int pgm_ecrire(char nom_fichier[], int matrice[MAX_HAUTEUR][MAX_LARGEUR],
 		}
 		fprintf(fichier, "\n");
 	}
+	
+	if (fichier!=NULL){fclose(fichier);}
 	return 0;
 }
 
@@ -344,6 +347,7 @@ int ppm_lire(char nom_fichier[], struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR], i
 	}
 	fscanf(fichier, "%i %i", p_colonnes, p_lignes);
 	fscanf(fichier,"%i",p_maxval);
+	
 	if (*p_colonnes > MAX_HAUTEUR || *p_lignes > MAX_LARGEUR || *p_maxval > MAX_VALEUR)
 	{
 		return -2;
@@ -356,6 +360,8 @@ int ppm_lire(char nom_fichier[], struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR], i
 			fscanf(fichier, "%i %i %i", &matrice[i][j].valeurR, &matrice[i][j].valeurG, &matrice[i][j].valeurB);
 		}
 	}	
+	
+	if (fichier!=NULL){fclose(fichier);}
 	return 0;
 }
 
@@ -369,7 +375,7 @@ int ppm_ecrire(char nom_fichier[], struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR],
 	}
 	if (metadonnees.auteur[0]!='\0' || metadonnees.dateCreation[0]!='\0' || metadonnees.lieuCreation[0]!='\0')
 	{
-		fprintf(fichier, "#%s;%s;%s", metadonnees.auteur, metadonnees.dateCreation, metadonnees.lieuCreation);
+		fprintf(fichier, "#%s;%s;%s\n", metadonnees.auteur, metadonnees.dateCreation, metadonnees.lieuCreation);
 	}
 	
 	fprintf(fichier, "P2\n");
@@ -382,6 +388,8 @@ int ppm_ecrire(char nom_fichier[], struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR],
 		}
 		fprintf(fichier, "\n");
 	}
+	
+	if (fichier!=NULL){fclose(fichier);}
 	return 0;
 }
 
@@ -422,37 +430,38 @@ int ppm_sont_identiques(struct RGB matrice1[MAX_HAUTEUR][MAX_LARGEUR], int ligne
 
 int ppm_pivoter90(struct RGB matrice[MAX_HAUTEUR][MAX_LARGEUR], int *p_lignes, int *p_colonnes, int sens)
 {
-	struct RGB matriceT[MAX_HAUTEUR][MAX_LARGEUR];
+	struct RGB matriceT[*p_lignes][*p_colonnes];
 	if (sens == 1)
 	{
-		for(int i = 0; i < *p_colonnes; i++)
+		for(int i = 0; i < *p_lignes; i++)
 		{
-			for (int j = 0; j < *p_lignes; j++)
+			for (int j = 0; j < *p_colonnes; j++)
 			{
-				matrice[i][j].valeurR = matriceT[*p_lignes-j][i].valeurR;
-				matrice[i][j].valeurG = matriceT[*p_lignes-j][i].valeurG;
-				matrice[i][j].valeurB = matriceT[*p_lignes-j][i].valeurB;
+				matriceT[i][j].valeurR = matrice[*p_lignes-j][i].valeurR;
+				matriceT[i][j].valeurG = matrice[*p_lignes-j][i].valeurG;
+				matriceT[i][j].valeurB = matrice[*p_lignes-j][i].valeurB;
 			}
 		}
 	}
 	if (sens == 0)
 	{
-		for(int i = 0; i < *p_colonnes; i++)
+		for(int i = 0; i < *p_lignes; i++)
 		{
-			for (int j = 0; j < *p_lignes; j++)
+			for (int j = 0; j < *p_colonnes; j++)
 			{
-				matrice[i][j].valeurR = matriceT[j][*p_colonnes -i].valeurR;
-				matrice[i][j].valeurG = matriceT[j][*p_colonnes -i].valeurG;
-				matrice[i][j].valeurB = matriceT[j][*p_colonnes -i].valeurB;
+				matriceT[i][j].valeurR = matrice[j][*p_colonnes -i].valeurR;
+				matriceT[i][j].valeurG = matrice[j][*p_colonnes -i].valeurG;
+				matriceT[i][j].valeurB = matrice[j][*p_colonnes -i].valeurB;
 			}
 		}
 	}
 	int temp = *p_colonnes;
 	*p_colonnes = *p_lignes;
 	*p_lignes = temp;
-	for(int i = 0; i < *p_colonnes; i++)
+	printf("%i %i", *p_lignes, *p_colonnes);
+	for(int i = 0; i < *p_lignes; i++)
 	{
-		for (int j = 0; j < *p_lignes; j++)
+		for (int j = 0; j < *p_colonnes; j++)
 		{
 			matrice[i][j].valeurR = matriceT[i][j].valeurR;
 			matrice[i][j].valeurG = matriceT[i][j].valeurG;
